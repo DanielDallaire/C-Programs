@@ -153,7 +153,7 @@ void mergeList(int* a, int* b, const int aSize, const int bSize){
 
 	int sorted[aSize + bSize];
 
-	int i = 0, j =0, k = 0;
+	int i = 0, j = 0, k = 0;
 
 	while(i != aSize || j != bSize){
 	if(i == aSize){
