@@ -1,3 +1,6 @@
+// Standard Data Structures (Type int)
+// Created by Daniel Dallaire
+
 #include <stdlib.h>
 #include <string.h>
 
