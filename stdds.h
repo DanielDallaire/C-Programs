@@ -1,60 +1,79 @@
-// Standard Data Structures (Type int)
+// Standard Data Structures
 // Created by Daniel Dallaire
 
 #include <stdlib.h>
 #include <string.h>
 
+// Type defaults to int.
+#ifndef TYPE
+	#define TYPE int
+#endif
+
+// It is required to define a different identifier modifier for each import of this file after the first. 
+#ifndef IdModifier
+	#define IdModifier(identifier) identifier 
+#endif
+
+// Defines these functions only once.
+#ifndef INIT
+	#define INIT \
+										\
+	int getSize(void* DS){				\
+		int temp;						\
+										\
+		memcpy(&temp, DS, sizeof(int)); \
+										\
+		return temp;					\
+	}									\
+										\
+	_Bool isEmpty(void* DS){			\
+		return getSize(DS) == 0;		\
+	}									\
+										\
+	_Bool isFull(void* DS){				\
+		return 0;						\
+	}
+#endif
+
+INIT
+
+#undef INIT
+#define INIT 
+
 // Node Type
-typedef struct nodeStructure{
-	int data;
-	struct nodeStructure* next;
-}Node;
+typedef struct IdModifier(nodeStructure){
+	TYPE data;
+	struct IdModifier(nodeStructure)* next;
+}IdModifier(Node);
 
 // Queue Type
-typedef struct queueStructure{
+typedef struct IdModifier(queueStructure){
 	int size;
-	Node* front;
-	Node* rear;
-}Queue;
+	IdModifier(Node)* front;
+	IdModifier(Node)* rear;
+}IdModifier(Queue);
 
 // Stack type
-typedef struct stackStructure{
+typedef struct IdModifier(stackStructure){
 	int size;
-	Node* top;
-}Stack;
-
-// Gets the size of the data structure, expects either a Stack or a Queue
-int getSize(void* DS){
-	int temp;
-	
-	memcpy(&temp, DS, sizeof(int));
-	
-	return temp;
-}
-
-// Returns true if the DS is empty.
-_Bool isEmpty(void* DS){
-	return getSize(DS) == 0;
-}
-
-_Bool isFull(void* DS){
-	return 0;
-}
+	IdModifier(Node)* top;
+}IdModifier(Stack);
 
 // --- Queue operations ---
 
 // Initializes the Queue
-void initQueue(Queue* Q){
+void IdModifier(initQueue)(IdModifier(Queue)* Q){
 	Q->size = 0;
 	Q->rear = NULL;
 	Q->front = NULL;
 }
 
 // Enqueues new data.
-void enque(Queue* Q, int newDat){
-	Node* newNode = (Node*) malloc(sizeof(Node));
+void IdModifier(enque)(IdModifier(Queue)* Q, TYPE newDat){
+	IdModifier(Node)* newNode = (IdModifier(Node)*) malloc(sizeof(IdModifier(Node)));
 	
-	newNode->data = newDat;
+	memcpy(&newNode->data, &newDat, sizeof(TYPE));
+	
 	newNode->next = NULL;
 	
 	if(Q->front == NULL)
@@ -70,7 +89,7 @@ void enque(Queue* Q, int newDat){
 }
 
 // Dequeues the front
-void deque(Queue* Q){
+void IdModifier(deque)(IdModifier(Queue)* Q){
 	if(Q->size == 0) return;
 	
 	if(Q->size == 1){
@@ -78,7 +97,7 @@ void deque(Queue* Q){
 		Q->front = Q->rear = NULL;
 	}
 	else{
-		Node* temp = Q->front;
+		IdModifier(Node)* temp = Q->front;
 		Q->front = Q->front->next;
 		free(temp);
 	}
@@ -89,23 +108,25 @@ void deque(Queue* Q){
 }
 
 // Returns the data at the front
-int getFront(Queue* Q){
-	return Q->front->data;
+void IdModifier(getFront)(IdModifier(Queue)* Q, TYPE* dest){
+	memcpy(dest, &Q->front->data, sizeof(TYPE));
+	return;
 }
 
 // --- Stack Operations ---
 
 // Initializes the Stack
-void initStack(Stack* S){
+void IdModifier(initStack)(IdModifier(Stack)* S){
 	S->size = 0;
 	S->top = NULL;
 }
 
 // Pushs new data onto the stack
-void push(Stack* S, int newDat){
-	Node* newNode = (Node*) malloc(sizeof(Node));
+void IdModifier(push)(IdModifier(Stack)* S, TYPE newDat){
+	IdModifier(Node)* newNode = (IdModifier(Node)*) malloc(sizeof(IdModifier(Node)));
 	
-	newNode->data = newDat;
+	memcpy(&newNode->data, &newDat, sizeof(TYPE));
+	
 	newNode->next = NULL;
 	
 	if(S->size == 0)
@@ -121,13 +142,13 @@ void push(Stack* S, int newDat){
 }
 
 // Pops the data at the top off the Stack.
-void pop(Stack* S){
+void IdModifier(pop)(IdModifier(Stack)* S){
 	if(S->size == 0) return;
 	
 	if(S->size == 1)
 		free(S->top);
 	else{
-		Node* temp = S->top;
+		IdModifier(Node)* temp = S->top;
 		S->top = S->top->next;
 		free(temp);
 	}
@@ -138,6 +159,10 @@ void pop(Stack* S){
 }
 
 // Returns the data at the top of the Stack
-int getTop(Stack* S){
-	return S->top->data;
+void IdModifier(getTop)(IdModifier(Stack)* S, TYPE* dest){
+	memcpy(dest, &S->top->data, sizeof(TYPE));
+	return;
 }
+
+#undef TYPE
+#undef IdModifier
