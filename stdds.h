@@ -16,22 +16,22 @@
 
 // Defines these functions only once.
 #ifndef INIT
-	#define INIT \
-										\
-	int getSize(void* DS){				\
-		int temp;						\
-										\
+	#define INIT                            \
+						\
+	int getSize(void* DS){			\
+		int temp;			\
+						\
 		memcpy(&temp, DS, sizeof(int)); \
-										\
-		return temp;					\
-	}									\
-										\
-	_Bool isEmpty(void* DS){			\
-		return getSize(DS) == 0;		\
-	}									\
-										\
-	_Bool isFull(void* DS){				\
-		return 0;						\
+						\
+		return temp;			\
+	}					\
+						\
+	_Bool isEmpty(void* DS){		\
+		return getSize(DS) == 0;	\
+	}					\
+						\
+	_Bool isFull(void* DS){			\
+		return 0;			\
 	}
 #endif
 
